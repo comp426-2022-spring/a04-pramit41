@@ -55,12 +55,12 @@ app.use((req, res, next) => {
         useragent: req.headers['user-agent']
     }
     const stmt = logdb.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, 
-        method, url,  protocol, httpversion, secure, status, 
+        method, url,  protocol, httpversion, status, 
         referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
     const info = stmt.run(logdata.remoteaddr.toString(), 
     logdata.remoteuser, logdata.time, logdata.method.toString(), 
     logdata.url.toString(), logdata.protocol.toString(), logdata.httpversion.toString(), 
-    logdata.secure.toString(), logdata.status.toString(), logdata.referer,
+     logdata.status.toString(), logdata.referer,
      logdata.useragent.toString())
     next()
 })
