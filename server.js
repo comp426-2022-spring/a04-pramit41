@@ -14,8 +14,6 @@ const express = require('express')
 
 const app = express()
 
-console.log('returning argslog value: ' + args.debug)
-
 if(args.help || args.h){
     console.log(`
     server.js [options]
