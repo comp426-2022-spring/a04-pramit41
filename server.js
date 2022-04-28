@@ -4,6 +4,8 @@ args['port']
 
 const port = args.port || process.env.pot || 5555
 
+const morgan = require('morgan')
+
 if(args.help || args.h){
     console.log(`
     server.js [options]
@@ -33,6 +35,38 @@ const app = express()
 app.get('/app/error', (req, res) => {
     throw new Error('Error test was successful') // Express will catch this on its own.
 })
+
+if (args.log){
+    const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: WRITESTREAM }))
+}
+
+app.use((req, res, next) => {
+    let logdata = {
+        remoteaddr: req.ip,
+        remoteuser: req.user,
+        time: Date.now(),
+        method: req.method,
+        url: req.url,
+        protocol: req.protocol,
+        httpversion: req.httpVersion,
+        status: res.statusCode,
+        referer: req.headers['referer'],
+        useragent: req.headers['user-agent']
+    }
+    next()
+})
+
+if (args.debug){
+    app.get('app/log/access', (req, res) =>{
+        try{
+            const stmt = db.prepare(`SELECT * from accesslog`).all()
+        } catch (e){
+            console.log(e)
+        }
+    })
+}
+
 
 
 app.listen(port, () => {
