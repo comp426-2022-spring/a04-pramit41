@@ -1,6 +1,6 @@
-var argv = require('minimist')(process.argv.slice(2))
+var args = require('minimist')(process.argv.slice(2))
 
-if(argv.help == true){
+if(args.help || args.h){
     console.log(`
     server.js [options]
     
@@ -17,6 +17,6 @@ if(argv.help == true){
     
     --help	Return this message and exit.
     `)
-    process.exit()
+    process.exit(0)
 }
 
