@@ -1,19 +1,5 @@
 var args = require('minimist')(process.argv.slice(2))
 
-args['port'] 
-
-const port = args.port || process.env.pot || 5555
-
-const morgan = require('morgan')
-
-const fs = require('fs')
-
-const logdb = require('./database')
-
-const express = require('express')
-
-const app = express()
-
 if(args.help || args.h){
     console.log(`
     server.js [options]
@@ -34,15 +20,31 @@ if(args.help || args.h){
     process.exit(0)
 }
 
+args['port'] 
+
+const port = args.port || process.env.port || 5555
+
+const morgan = require('morgan')
+
+const fs = require('fs')
+
+const logdb = require('./database')
+
+const express = require('express')
+
+const app = express()
+
 app.get('/app/error', (req, res) => {
-    throw new Error('Error test was successful') // Express will catch this on its own.
+    throw new Error('Error test was successful') 
 })
 
-if (args.log){
+if (args.log == false){
+    console.log("Not creating access.log file")
+} else {
     const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', { stream: WRITESTREAM }))
 }
-
+    
 app.use((req, res, next) => {
     let logdata = {
         remoteaddr: req.ip,
