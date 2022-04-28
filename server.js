@@ -61,6 +61,7 @@ if (args.debug){
     app.get('/app/log/access', (req, res) =>{
         try{
             const stmt = db.prepare(`SELECT * from accesslog`).all()
+            res.status(200).json(stmt)
         } catch (e){
             console.log(e)
         }
