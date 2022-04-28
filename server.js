@@ -1,5 +1,9 @@
 var args = require('minimist')(process.argv.slice(2))
 
+args['port'] 
+
+const port = args.port || process.env.pot || 5555
+
 if(args.help || args.h){
     console.log(`
     server.js [options]
@@ -20,3 +24,11 @@ if(args.help || args.h){
     process.exit(0)
 }
 
+
+const express = require('express')
+
+const app = express()
+
+app.listen(port, () => {
+    console.log('App listening on port %PORT%'.replace('%PORT%', port))
+})
