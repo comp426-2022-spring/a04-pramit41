@@ -34,12 +34,19 @@ const express = require('express')
 
 const app = express()
 
-if (args.log == false){
+const log = args.log || 'true'
+
+if(log == true){
+    const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: accesslog }))
+}
+
+/*if (args.log == false){
     console.log("Not creating access.log file")
 } else {
     const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', { stream: accesslog }))
-}
+}*/
     
 app.use((req, res, next) => {
     let logdata = {
