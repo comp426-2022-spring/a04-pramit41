@@ -8,6 +8,14 @@ const morgan = require('morgan')
 
 const fs = require('fs')
 
+const logdb = require('./database')
+
+const express = require('express')
+
+const app = express()
+
+console.log('returning argslog value: ' + args.debug)
+
 if(args.help || args.h){
     console.log(`
     server.js [options]
@@ -27,12 +35,6 @@ if(args.help || args.h){
     `)
     process.exit(0)
 }
-
-const logdb = require('./database')
-
-const express = require('express')
-
-const app = express()
 
 app.get('/app/error', (req, res) => {
     throw new Error('Error test was successful') // Express will catch this on its own.
@@ -70,7 +72,7 @@ app.use((req, res, next) => {
 if (args.debug){
     app.get('/app/log/access', (req, res) =>{
         try{
-            const stmt = db.prepare(`SELECT * from accesslog`).all()
+            const stmt = logdb.prepare(`SELECT * from accesslog`).all()
             res.status(200).json(stmt)
         } catch (e){
             console.log(e)
