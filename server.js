@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 })
 
 if (args.debug){
-    app.get('app/log/access', (req, res) =>{
+    app.get('/app/log/access', (req, res) =>{
         try{
             const stmt = db.prepare(`SELECT * from accesslog`).all()
         } catch (e){
@@ -66,6 +66,7 @@ if (args.debug){
         }
     })
 }
+
 app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%', port))
 })
