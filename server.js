@@ -6,6 +6,8 @@ const port = args.port || process.env.pot || 5555
 
 const morgan = require('morgan')
 
+const fs = require('fs')
+
 if(args.help || args.h){
     console.log(`
     server.js [options]
