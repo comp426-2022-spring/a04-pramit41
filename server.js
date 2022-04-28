@@ -1,5 +1,7 @@
 var args = require('minimist')(process.argv.slice(2))
 
+const logdb = require('./database')
+
 args['port'] 
 
 const port = args.port || process.env.pot || 5555
