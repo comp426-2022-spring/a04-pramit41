@@ -34,15 +34,11 @@ const express = require('express')
 
 const app = express()
 
-app.get('/app/error', (req, res) => {
-    throw new Error('Error test was successful') 
-})
-
 if (args.log == false){
     console.log("Not creating access.log file")
 } else {
-    const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
-    app.use(morgan('combined', { stream: WRITESTREAM }))
+    const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: accesslog }))
 }
     
 app.use((req, res, next) => {
@@ -79,6 +75,10 @@ if (args.debug){
         }
     })
 }
+
+app.get('/app/error', (req, res) => {
+    throw new Error('Error test was successful') 
+})
 
 app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%', port))
