@@ -29,6 +29,11 @@ const express = require('express')
 
 const app = express()
 
+app.get('/app/error', (req, res) => {
+    throw new Error('Error test was successful') // Express will catch this on its own.
+})
+
+
 app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%', port))
 })
