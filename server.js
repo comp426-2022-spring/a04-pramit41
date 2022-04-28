@@ -56,7 +56,7 @@ app.use((req, res, next) => {
     }
     const stmt = logdb.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, 
         method, url,  protocol, httpversion, status, 
-        referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+        referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
     const info = stmt.run(logdata.remoteaddr.toString(), 
     logdata.remoteuser, logdata.time, logdata.method.toString(), 
     logdata.url.toString(), logdata.protocol.toString(), logdata.httpversion.toString(), 
